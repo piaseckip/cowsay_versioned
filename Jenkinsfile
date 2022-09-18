@@ -13,7 +13,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'Checkout', state: 'pending'
                 script {
-                STATUS = "Checkout"
+                    STATUS = "Checkout"
                 }
                 echo "Starting the checkout"
                 echo " "
@@ -37,6 +37,7 @@ pipeline {
 
                 echo "Checkout complete!"
                 updateGitlabCommitStatus name: 'Checkout', state: 'success'
+                }
             }
         }
         stage('Build') {
@@ -122,5 +123,4 @@ pipeline {
                  attachLog: true
         }
     }
-}
 }
