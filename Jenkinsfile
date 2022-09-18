@@ -26,7 +26,7 @@ pipeline {
                         sh "echo $Version.0 NOT FOR RELEASE > version.txt"
                         sh "git add ."
                         sh "git commit -am 'Initial commit for branch'"
-                        sh "git push"
+                        sh "git push --set-upstream origin release/$Version"
                     }
                 }
             }
