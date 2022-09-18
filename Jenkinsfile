@@ -15,18 +15,17 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'echo $Version'
                 script{
                     try {
-                        sh "git checkout release/$Version"
-                        sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
+                        sh "git checkout release/$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
+                        sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))).$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
 
                         
                     }
                     catch (Exception e) {
                         sh "git checkout main"
-                        sh "git checkout -b release/$Version"
-                        sh "echo $Version.0 NOT FOR RELEASE > version.txt"
+                        sh "git checkout -b release/$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
+                        sh "echo $Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))).0 NOT FOR RELEASE > version.txt"
                         sh "git add ."
                         sh "git commit -am 'Initial commit for branch'"
                         sh "git push http://jenkins:$token@35.178.81.143/piaseckip/cowsay_versioned"
@@ -64,15 +63,15 @@ pipeline {
                 echo " "
                 script{
                     try {
-                        sh "git checkout release/$Version"
-                        sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
+                        sh "git checkout release/$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
+                        sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))).$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
 
                         
                     }
                     catch (Exception e) {
                         sh "git checkout main"
-                        sh "git checkout -b release/$Version"
-                        sh "echo $Version.0 NOT FOR RELEASE > version.txt"
+                        sh "git checkout -b release/$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
+                        sh "echo $Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))).0 NOT FOR RELEASE > version.txt"
                       
                     }
                         sh "git add ."
@@ -126,8 +125,8 @@ pipeline {
                 echo 'Preparing to push to ECR'
                 echo " "
                 sh "aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-2.amazonaws.com"
-                sh "docker tag cow:$Version 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version"
-                sh "docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version"
+                sh "docker tag cow:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
+                sh "docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
                 echo " "
                 echo " Pushing to ECR success"
                 updateGitlabCommitStatus name: 'Ecr deploy', state: 'success'
@@ -142,7 +141,7 @@ pipeline {
                 echo " "
                 sh 'ssh -i /home/jenkins/Piotrek_pair.pem ubuntu@ec2-3-9-175-50.eu-west-2.compute.amazonaws.com "aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-2.amazonaws.com"'
                 sh 'ssh -i /home/jenkins/Piotrek_pair.pem ubuntu@ec2-3-9-175-50.eu-west-2.compute.amazonaws.com "docker rm -f krowa"'
-                sh 'ssh -i /home/jenkins/Piotrek_pair.pem ubuntu@ec2-3-9-175-50.eu-west-2.compute.amazonaws.com "docker pull 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version"'
+                sh 'ssh -i /home/jenkins/Piotrek_pair.pem ubuntu@ec2-3-9-175-50.eu-west-2.compute.amazonaws.com "docker pull 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"'
                 sh 'ssh -i /home/jenkins/Piotrek_pair.pem ubuntu@ec2-3-9-175-50.eu-west-2.compute.amazonaws.com "docker run --name krowa -d -p 80:8081 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:latest"'
                 echo " "
                 echo "Deploy complete!"
