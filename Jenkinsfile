@@ -83,7 +83,7 @@ pipeline {
                 echo " "
                 sh "aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-2.amazonaws.com"
                 sh 'docker tag cow:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))'
-                sh "docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
+                sh 'docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))'
                 echo " "
                 echo " Pushing to ECR success"
                 updateGitlabCommitStatus name: 'Ecr deploy', state: 'success'
