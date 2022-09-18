@@ -21,7 +21,7 @@ pipeline {
                         sh "git checkout release/$Version" 
                     }
                     catch (Exception e) {
-                        sh "git remote set-url origin git@35.178.81.143:piaseckip/cowsay_versioned.git"
+                        sh "git remote set-url origin http://35.178.81.143/piaseckip/cowsay_versioned.git"
                         sh "git checkout main"
                         sh "git checkout -b release/$Version"
                         sh "echo $Version.0 NOT FOR RELEASE > version.txt"
