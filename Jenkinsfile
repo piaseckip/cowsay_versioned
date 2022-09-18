@@ -73,7 +73,14 @@ pipeline {
                 updateGitlabCommitStatus name: 'Test', state: 'success'
             }
         }    
-
+        stage('Git deploy') {
+            steps {
+                sh 'echo "$VERSION.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE" > version.txt'
+                sh "git add ."
+                sh 'git commit -am "$(tail version.txt)"'
+                sh "git push http://jenkins:$token@35.178.81.143/piaseckip/cowsay_versioned" 
+            }
+        }
         stage('Ecr deploy') {
             steps {
                 updateGitlabCommitStatus name: 'Ecr deploy', state: 'pending'
@@ -83,8 +90,7 @@ pipeline {
                 echo 'Preparing to push to ECR'
                 echo " "
                 sh "aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-2.amazonaws.com"
-                sh 'docker tag cow:latest 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))'
-                sh 'docker push 644435390668.dkr.ecr.eu-west-2.amazonaws.com/piotrekcowsay:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))'
+                sh 'docker tag cow:latest 644435390668.dkr.ecr.eu-wVersion.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))onaws.com/piotrekcowsay:$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))'
                 echo " "
                 echo " Pushing to ECR success"
                 updateGitlabCommitStatus name: 'Ecr deploy', state: 'success'
