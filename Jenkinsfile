@@ -4,30 +4,31 @@ pipeline {
     }
     agent any
 
-    environment {
-        STATUS = "Initial STATUS env value"
-    }
-
     stages {
         stage("Checkout the SCM") {
             steps {
-                updateGitlabCommitStatus name: 'Checkout', state: 'pending'
-                script {
-                STATUS = "Checkout"
-                }
                 echo "Starting the checkout"
-                echo " "
                 deleteDir()
                 checkout scm
-                echo " "
-                echo "Checkout complete!"
-                updateGitlabCommitStatus name: 'Checkout', state: 'success'
             }
         }
 
         stage('Build') {
             steps {
-                sh "echo ${Version}"
+                sh 'echo $Version'
+                script{
+                    try {
+                        sh "git checkout release/$Version" 
+                    }
+                    catch (Exception e) {
+                        sh "git checkout main"
+                        sh "git checkout -b release/$Version"
+                        sh "echo $Version.0 NOT FOR RELEASE > version.txt"
+                        sh "git add ."
+                        sh "git commit -am 'Initial commit for branch'"
+                        sh "git push"
+                    }
+                }
             }
         }
         
