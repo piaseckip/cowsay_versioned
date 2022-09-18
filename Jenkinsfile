@@ -4,47 +4,6 @@ pipeline {
     }
     agent any
 
-    stages {
-        stage("Checkout the SCM") {
-            steps {
-                echo "Starting the checkout"
-                deleteDir()
-                checkout scm
-            }
-        }
-
-        stage('Build') {
-            steps {
-                script{
-                    try {
-                        sh "git checkout release/$Version"
-                        sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
-
-                        
-                    }
-                    catch (Exception e) {
-                        sh "git checkout main"
-                        sh "git checkout -b release/$Version"
-                        sh "echo $Version.0 NOT FOR RELEASE > version.txt"
-                        sh "git add ."
-                        sh "git commit -am 'Initial commit for branch'"
-                        sh "git push http://jenkins:$token@35.178.81.143/piaseckip/cowsay_versioned"
-                    }
-                }
-            }
-        }
-        
-    }
-
-}
-
-
-pipeline {
-    options {
-        timestamps()
-    }
-    agent any
-
     environment {
         STATUS = "Initial STATUS env value"
     }
@@ -63,15 +22,15 @@ pipeline {
                 echo " "
                 script{
                     try {
-                        sh "git checkout release/$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
-                        sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))).$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
+                        sh "git checkout release/$Version"
+                        sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
 
                         
                     }
                     catch (Exception e) {
                         sh "git checkout main"
-                        sh "git checkout -b release/$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
-                        sh "echo $Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))).0 NOT FOR RELEASE > version.txt"
+                        sh "git checkout -b release/$Version"
+                        sh "echo $Version.0 NOT FOR RELEASE > version.txt"
                       
                     }
                         sh "git add ."
