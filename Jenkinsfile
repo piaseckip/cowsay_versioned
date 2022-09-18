@@ -78,7 +78,9 @@ pipeline {
                 sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE" > version.txt'
                 sh "git add ."
                 sh 'git commit -am "$(tail version.txt)"'
-                sh "git push http://jenkins:$token@35.178.81.143/piaseckip/cowsay_versioned" 
+                sh 'git tag $Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))'
+                sh "git push http://jenkins:$token@35.178.81.143/piaseckip/cowsay_versioned"
+                sh "git push http://jenkins:$token@35.178.81.143/piaseckip/cowsay_versioned $Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))"
             }
         }
         stage('Ecr deploy') {
