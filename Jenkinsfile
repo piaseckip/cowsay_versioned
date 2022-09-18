@@ -24,8 +24,6 @@ pipeline {
                     try {
                         sh "git checkout release/$Version"
                         sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
-
-                        
                     }
                     catch (Exception e) {
                         sh "git checkout main"
@@ -34,7 +32,7 @@ pipeline {
                       
                     }
                         sh "git add ."
-                        sh "git commit -am '$(cat version.txt)'"
+                        sh 'git commit -am "$(tail version.txt)"'
                         sh "git push http://jenkins:$token@35.178.81.143/piaseckip/cowsay_versioned"
 
                 echo "Checkout complete!"
