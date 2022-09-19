@@ -22,6 +22,7 @@ pipeline {
                 echo " "
                 deleteDir()
                 checkout scm
+                echo "lalala"
                 echo "${BRANCH_NAME}"
                 
                 echo " "
