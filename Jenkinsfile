@@ -6,7 +6,10 @@ pipeline {
 
     environment {
         STATUS = "Initial STATUS env value"
+        BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
     }
+
+  
 
     stages {
         stage("Checkout the SCM") {
@@ -19,6 +22,8 @@ pipeline {
                 echo " "
                 deleteDir()
                 checkout scm
+                echo "${BRANCH_NAME}"
+                
                 echo " "
                 script{
                     try {
@@ -29,16 +34,15 @@ pipeline {
                         sh "git checkout main"
                         sh "git checkout -b release/$Version"
                         sh "echo $Version.0 NOT FOR RELEASE > version.txt"
-                      
                     }
-                        sh "git add ."
-                        sh 'git commit -am "$(tail version.txt)"'
+                    sh "git add ."
+                    sh 'git commit -am "$(tail version.txt)"'
 
-                        withCredentials([string(credentialsId: 'api_token', variable: 'TOKEN')]) { 
-                            sh "git push http://jenkins:$TOKEN@35.178.81.143/piaseckip/cowsay_versioned"
-                        }
-                echo "Checkout complete!"
-                updateGitlabCommitStatus name: 'Checkout', state: 'success'
+                    withCredentials([string(credentialsId: 'api_token', variable: 'TOKEN')]) { 
+                        sh "git push http://jenkins:$TOKEN@35.178.81.143/piaseckip/cowsay_versioned"
+                    }
+                    echo "Checkout complete!"
+                    updateGitlabCommitStatus name: 'Checkout', state: 'success'
                 }
             }
         }
