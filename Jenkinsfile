@@ -7,7 +7,7 @@ pipeline {
     environment {
         STATUS = "Initial STATUS env value"
         BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
-        BOL = 'True'
+        VER = 'True'
     }
 
   
@@ -45,10 +45,10 @@ pipeline {
                         }
                         else{
                             script{
-                                BOL = 'FALSE'
+                                VER = 'FALSE'
                             }
                             sh 'echo "lalala"'
-                            sh 'echo "${BOL}"'
+                            sh 'echo "${VER}"'
                         }
                     }
                     echo "Checkout complete!"
@@ -77,7 +77,7 @@ pipeline {
 
         stage('Test') {
             when{
-                expression { "${BOL}" == "True"}
+                expression { "${VER}" == "True"}
             }
             steps {
                 updateGitlabCommitStatus name: 'Test', state: 'pending'
@@ -94,7 +94,7 @@ pipeline {
         }    
         stage('Git deploy') {
             when{
-                expression { "${BOL}" == "True"}
+                expression { "${VER}" == "True"}
             }
             steps {
                 updateGitlabCommitStatus name: 'Git deploy', state: 'pending'
@@ -115,7 +115,7 @@ pipeline {
         }
         stage('Ecr deploy') {
             when{
-                expression { "${BOL}" == "True"}
+                expression { "${VER}" == "True"}
             }
             steps {
                 updateGitlabCommitStatus name: 'Ecr deploy', state: 'pending'
@@ -136,7 +136,7 @@ pipeline {
         
         stage ("Deploy to prod") {
             when{
-                expression { "${BOL}" == "True"}
+                expression { "${VER}" == "True"}
             }
             steps {
                 updateGitlabCommitStatus name: 'Deploy to prod', state: 'pending'
