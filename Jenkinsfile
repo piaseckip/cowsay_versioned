@@ -60,8 +60,8 @@ pipeline {
                                     sh "git checkout release/'${BRANCH}'"
                                     def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                                     echo "${CURRENT_BRANCH}"
-                                    echo ''${BRANCH}'.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE'
-                                    sh 'echo "'${BRANCH}'.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
+                                    echo ''${BRANCH}'.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE > version.txt'
+                                    //sh 'echo "'${BRANCH}'.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
                                     sh ""
                                     sh "git add ."
                                     sh 'git commit -am "$(tail version.txt)"'
