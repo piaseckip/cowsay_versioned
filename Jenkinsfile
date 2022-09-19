@@ -24,7 +24,7 @@ pipeline {
                 deleteDir()
                 checkout scm
                 echo " "
-                echo '$(cat version.txt)'
+                sh 'echo "$(cat version.txt)"'
                 script{
                     def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                     echo "${CURRENT_BRANCH}"
