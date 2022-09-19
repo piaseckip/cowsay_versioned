@@ -47,9 +47,12 @@ pipeline {
                             script{
                                 VER = 'FALSE'
                             }
-                            sh 'echo "lalala"'
-                            sh 'echo "${VER}"'
                         }
+                    }
+                    else{
+                        def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                        echo "${CURRENT_BRANCH}"
+                        echo "lama"
                     }
                     echo "Checkout complete!"
                     updateGitlabCommitStatus name: 'Checkout', state: 'success'
