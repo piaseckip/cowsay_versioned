@@ -33,8 +33,10 @@ pipeline {
                     }
                         sh "git add ."
                         sh 'git commit -am "$(tail version.txt)"'
-                        sh "git push http://jenkins:$token@35.178.81.143/piaseckip/cowsay_versioned"
 
+                        withCredentials([string(credentialsId: 'api_token', variable: 'TOKEN')]) { 
+                            sh "git push http://jenkins:$TOKEN@35.178.81.143/piaseckip/cowsay_versioned"
+                        }
                 echo "Checkout complete!"
                 updateGitlabCommitStatus name: 'Checkout', state: 'success'
                 }
@@ -44,7 +46,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'Build', state: 'pending'
                 script {
-                STATUS = "Build"
+                    STATUS = "Build"
                 }
                 echo "Starting the build"
                 echo " "
