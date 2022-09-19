@@ -29,11 +29,6 @@ pipeline {
                 
                 echo " "
                 script{
-                    // if ( "${BRANCH_NAME}" != "main"){
-                    // sh 'git checkout release/"${VER}"'
-                    
-                    // }
-                    // else{
                     try {
                         sh "git checkout release/$Version"
                         sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
@@ -51,7 +46,6 @@ pipeline {
                     }
                     echo "Checkout complete!"
                     updateGitlabCommitStatus name: 'Checkout', state: 'success'
-                    // }
                 }
             }
         }
