@@ -60,7 +60,7 @@ pipeline {
                                     sh "git checkout release/'${BRANCH}'"
                                     def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                                     echo "${CURRENT_BRANCH}"
-                                    sh 'echo "'${BRANCH}'.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
+                                    sh "echo '"${BRANCH}".$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE' > version.txt"
                                     sh "git add ."
                                     sh 'git commit -am "$(tail version.txt)"'
                                     withCredentials([string(credentialsId: 'api_token', variable: 'TOKEN')]) { 
@@ -113,7 +113,7 @@ pipeline {
                 sleep 10
                 sh "curl -i http://35.178.81.143:4001 | grep 200"
                 updateGitlabCommitStatus name: 'Test', state: 'success'
-            }
+            }URRENT_
         }  
 
         stage('Git deploy') {
