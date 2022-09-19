@@ -113,7 +113,7 @@ pipeline {
                 sleep 10
                 sh "curl -i http://35.178.81.143:4001 | grep 200"
                 updateGitlabCommitStatus name: 'Test', state: 'success'
-            }URRENT_
+            }
         }  
 
         stage('Git deploy') {
@@ -123,7 +123,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'Git deploy', state: 'pending'
                 script {
-                    STATUS = "Git deploy"
+                    STATUSRRENT_ = "Git deploy"
                 }
                 sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE" > version.txt'
                 sh "git add ."
