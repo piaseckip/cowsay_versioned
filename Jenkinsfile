@@ -79,7 +79,7 @@ pipeline {
                 }
                 echo "Starting the build"
                 echo " "
-                sh "docker rm -f house_cow"
+                
                 echo 'Building..'
                 sleep 5 
                 sh "docker build --build-arg PORT=8081 -t cow ."
@@ -101,6 +101,7 @@ pipeline {
                 }
                 echo "Starting the local test"
                 echo " "
+                sh "docker rm -f house_cow"
                 sh "docker run -d -p 4001:8081 --name house_cow cow"
                 sleep 10
                 sh "curl -i http://35.178.81.143:4001 | grep 200"
