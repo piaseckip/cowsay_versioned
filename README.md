@@ -1,6 +1,5 @@
 # Cowsay2
-# xddddd
-# xdd
+# test
 
 
 ## Getting started
