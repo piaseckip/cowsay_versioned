@@ -64,7 +64,6 @@ pipeline {
                 }
                 echo "lalala"
                 echo "${BRANCH_NAME}"
-                echo
                 echo "Starting the build"
                 echo " "
                 sh "docker rm -f house_cow"
