@@ -66,7 +66,7 @@ pipeline {
                                     withCredentials([string(credentialsId: 'api_token', variable: 'TOKEN')]) { 
                                         sh "git push http://jenkins:$TOKEN@35.178.81.143/piaseckip/cowsay_versioned"
                                     }
-                                    "$Version" = "${BRANCH}"
+                                    Version = "${BRANCH}"
 
                                 }
                             }   
