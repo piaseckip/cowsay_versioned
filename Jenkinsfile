@@ -132,7 +132,9 @@ pipeline {
                 updateGitlabCommitStatus name: 'Git deploy', state: 'pending'
                 script {
                     STATUSRRENT_ = "Git deploy"
-                }
+                    def BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" -f1').trim()
+                    echo "${BRANCH}"
+                
                 sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE" > version.txt'
                 sh "git add ."
                 sh 'git commit -am "$(tail version.txt)"'
@@ -141,6 +143,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'api_token', variable: 'TOKEN')]) { 
                     sh 'git push http://jenkins:$TOKEN@35.178.81.143/piaseckip/cowsay_versioned'
                     sh 'git push http://jenkins:$TOKEN@35.178.81.143/piaseckip/cowsay_versioned $Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))'
+                }
                 }
                 updateGitlabCommitStatus name: 'Git deploy', state: 'success'
             }
