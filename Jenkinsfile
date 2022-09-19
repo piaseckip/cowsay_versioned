@@ -133,8 +133,12 @@ pipeline {
                 script {
                     STATUS = "Git deploy"
                     sh "git log --all --graph --oneline --decorate | head -1"
+                    try{
                     BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" -f1').trim()
-                    echo "${BRANCH}"
+                    }
+                    catch (Exception e){
+                        BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f2 | cut -d ")" -f1').trim()
+                    }
                     Version = "${BRANCH}"
                     echo "$Version"
 
