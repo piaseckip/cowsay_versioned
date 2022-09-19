@@ -44,7 +44,9 @@ pipeline {
                             }
                         }
                         else{
-                            BOL = "FALSE"
+                            script{
+                                BOL = "FALSE"
+                            }
                             sh 'echo "lalala"'
                             sh 'echo "${BOL}"'
                         }
