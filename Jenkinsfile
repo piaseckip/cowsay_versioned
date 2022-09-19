@@ -60,7 +60,13 @@ pipeline {
                                     sh "git checkout release/'${BRANCH}'"
                                     def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                                     echo "${CURRENT_BRANCH}"
-
+                                    sh 'echo "'${CURRENT_BRANCH}'.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
+                                    sh "git add ."
+                                    sh 'git commit -am "$(tail version.txt)"'
+                                    withCredentials([string(credentialsId: 'api_token', variable: 'TOKEN')]) { 
+                                        sh "git push http://jenkins:$TOKEN@35.178.81.143/piaseckip/cowsay_versioned"
+                                    }
+                                    "$Version" = "${BRANCH}"
 
                                 }
                             }   
