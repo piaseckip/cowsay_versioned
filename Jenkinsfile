@@ -6,7 +6,9 @@ pipeline {
 
     environment {
         STATUS = "Initial STATUS env value"
-        BRANCH_NAME = "${GIT_BRANCH}"
+        BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
+        VER = "${GIT_BRANCH.split("/")[2]}"
+
     }
 
   
@@ -27,6 +29,11 @@ pipeline {
                 
                 echo " "
                 script{
+                    // if ( "${BRANCH_NAME}" != "main"){
+                    // sh 'git checkout release/"${VER}"'
+                    
+                    // }
+                    // else{
                     try {
                         sh "git checkout release/$Version"
                         sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
@@ -44,6 +51,7 @@ pipeline {
                     }
                     echo "Checkout complete!"
                     updateGitlabCommitStatus name: 'Checkout', state: 'success'
+                    // }
                 }
             }
         }
@@ -52,7 +60,11 @@ pipeline {
                 updateGitlabCommitStatus name: 'Build', state: 'pending'
                 script {
                     STATUS = "Build"
+                    BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
                 }
+                echo "lalala"
+                echo "${BRANCH_NAME}"
+                echo
                 echo "Starting the build"
                 echo " "
                 sh "docker rm -f house_cow"
