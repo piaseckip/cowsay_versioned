@@ -65,15 +65,15 @@ pipeline {
 
                                 }
                             }   
-                            }
                         }
                     }
+                }
                     
                     echo "Checkout complete!"
                     updateGitlabCommitStatus name: 'Checkout', state: 'success'
-                }
             }
         }
+    
         stage('Build') {
             steps {
                 updateGitlabCommitStatus name: 'Build', state: 'pending'
@@ -100,7 +100,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'Test', state: 'pending'
                 script {
-                STATUS = "Test"
+                    STATUS = "Test"
                 }
                 echo "Starting the local test"
                 echo " "
@@ -109,7 +109,8 @@ pipeline {
                 sh "curl -i http://35.178.81.143:4001 | grep 200"
                 updateGitlabCommitStatus name: 'Test', state: 'success'
             }
-        }    
+        }  
+
         stage('Git deploy') {
             when{
                 expression { "${VER}" == "True"}
@@ -117,7 +118,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'Git deploy', state: 'pending'
                 script {
-                STATUS = "Git deploy"
+                    STATUS = "Git deploy"
                 }
                 sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE" > version.txt'
                 sh "git add ."
@@ -131,6 +132,7 @@ pipeline {
                 updateGitlabCommitStatus name: 'Git deploy', state: 'success'
             }
         }
+
         stage('Ecr deploy') {
             when{
                 expression { "${VER}" == "True"}
@@ -138,7 +140,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'Ecr deploy', state: 'pending'
                 script {
-                STATUS = "Ecr deploy"
+                    STATUS = "Ecr deploy"
                 }
                 echo 'Preparing to push to ECR'
                 echo " "
@@ -148,9 +150,10 @@ pipeline {
                 echo " "
                 echo " Pushing to ECR success"
                 updateGitlabCommitStatus name: 'Ecr deploy', state: 'success'
-                }
-               
             }
+        }
+               
+            
         
         stage ("Deploy to prod") {
             when{
