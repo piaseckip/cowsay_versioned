@@ -132,6 +132,7 @@ pipeline {
                 updateGitlabCommitStatus name: 'Git deploy', state: 'pending'
                 script {
                     STATUS = "Git deploy"
+                    BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" -f1').trim()
                     echo "${BRANCH}"
                     Version = "${BRANCH}"
                     echo "$Version"
