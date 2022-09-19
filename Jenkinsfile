@@ -49,20 +49,25 @@ pipeline {
                         else{
                             script{
                                 def LOG = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1').trim()
-                                // def LOG = "${sh "git log --all --graph --oneline --decorate | head -1"}"
                                 echo "tutaj"
                                 echo "${LOG}"
-                                // if ("S{LOG}".contains('main')
+                                if ("S{LOG}".contains('main')) {
+                                    echo "lama"
+                                    VER = 'FALSE'
+                                }
+                                }
+                                else {
+                                    def BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" - f1').trim()
+                                    echo "${BRANCH}"
+                                    sh 'git checkout "${BRANCH}"'
+                                    def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                                    echo "${CURRENT_BRANCH}"
 
-                                echo "lama"
-                                VER = 'FALSE'
+                                }
                             }
                         }
                     }
-                    else{
-                        sh 'echo $(cat version.txt)'
-                        echo "to do"
-                    }
+                    
                     echo "Checkout complete!"
                     updateGitlabCommitStatus name: 'Checkout', state: 'success'
                 }
