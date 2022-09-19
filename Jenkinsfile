@@ -26,9 +26,6 @@ pipeline {
                 echo " "
                 sh 'echo "$(cat version.txt)"'
                 script{
-                    def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    echo "${CURRENT_BRANCH}"
-                    if ("${CURRENT_BRANCH}".contains('HEAD')) {
                         if ("$Version" != ""){
                             try {
                                 sh "git checkout release/$Version"
@@ -66,7 +63,7 @@ pipeline {
                                 }
                             }   
                         }
-                    }
+                    
                 }
                     
                     echo "Checkout complete!"
