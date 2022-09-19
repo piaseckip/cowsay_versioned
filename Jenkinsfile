@@ -48,7 +48,7 @@ pipeline {
                         }
                         else{
                             script{
-                                def LOG = sh "git log --all --graph --oneline --decorate | head -1 "
+                                def LOG = "${sh "git log --all --graph --oneline --decorate | head -1"}"
                                 echo "tutaj"
                                 echo "${LOG}"
                                 // if ("S{LOG}".contains('main')
