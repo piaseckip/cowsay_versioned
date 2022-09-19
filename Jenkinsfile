@@ -134,6 +134,9 @@ pipeline {
                     STATUSRRENT_ = "Git deploy"
                     def BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" -f1').trim()
                     echo "${BRANCH}"
+                    Version = "${BRANCH}"
+                    echo "$Version"
+
                 
                 sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE" > version.txt'
                 sh "git add ."
