@@ -7,7 +7,6 @@ pipeline {
     environment {
         STATUS = "Initial STATUS env value"
         BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
-        VER = "${GIT_BRANCH.split("/")[2]}"
 
     }
 
