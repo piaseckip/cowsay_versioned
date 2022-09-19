@@ -48,11 +48,10 @@ pipeline {
                                 def LOG = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1').trim()
                                 echo "tutaj"
                                 echo "${LOG}"
-                                if ("S{LOG}".contains('main')) {
+                                if ("S{LOG}".contains('origin/main')) {
                                     echo "lama"
                                     VER = 'FALSE'
                                 }
-                                
                                 else {
                                     def BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" -f1').trim()
                                     echo "${BRANCH}"
