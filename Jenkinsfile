@@ -7,7 +7,7 @@ pipeline {
     environment {
         STATUS = "Initial STATUS env value"
         BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
-        BOL = "Init"
+        BOL = "True"
     }
 
   
@@ -44,10 +44,9 @@ pipeline {
                             }
                         }
                         else{
-                            BOL = "True"
+                            BOL = "FALSE"
                             sh 'echo "lalala"'
                             sh 'echo "${BOL}"'
-
                         }
                     }
                     echo "Checkout complete!"
