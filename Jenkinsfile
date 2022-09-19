@@ -142,6 +142,7 @@ pipeline {
                 sh "echo -n '${Version}' > version.txt"
                 sh "echo -n '.' >> version.txt"
                 sh 'echo -n "$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE" >> version.txt'
+                sh "cat version.txt"
 
                 //sh "echo '$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE' > version.txt"
                 sh "git add ."
