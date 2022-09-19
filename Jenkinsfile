@@ -46,7 +46,7 @@ pipeline {
                         }
                         else{
                             script{
-                                def LOG = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1').trim()
+                                LOG = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1').trim()
                                 echo "tutaj"
                                 echo "${LOG}"
                                 if ( "${LOG}".contains('main')) {
@@ -55,10 +55,10 @@ pipeline {
                                 }
                                 else {
                                     echo "nie tu"
-                                    def BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" -f1').trim()
+                                    BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" -f1').trim()
                                     echo "${BRANCH}"
                                     sh "git checkout release/'${BRANCH}'"
-                                    def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                                    CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                                     echo "${CURRENT_BRANCH}"
                                     sh "cat version.txt"
                                     echo "${BRANCH}"
@@ -131,8 +131,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'Git deploy', state: 'pending'
                 script {
-                    STATUSRRENT_ = "Git deploy"
-                    def BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" -f1').trim()
+                    STATUS = "Git deploy"
                     echo "${BRANCH}"
                     Version = "${BRANCH}"
                     echo "$Version"
