@@ -1,6 +1,7 @@
 # Cowsay2
 # test
 # test
+#debug
 
 
 ## Getting started
