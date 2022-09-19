@@ -7,7 +7,6 @@ pipeline {
     environment {
         STATUS = "Initial STATUS env value"
         BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
-        CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
         VER = 'True'
     }
 
@@ -24,6 +23,7 @@ pipeline {
                 echo " "
                 deleteDir()
                 checkout scm
+                def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                 echo " "
                 script{
                     if ("${BRANCH_NAME}" == "main") {
