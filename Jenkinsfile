@@ -7,6 +7,7 @@ pipeline {
     environment {
         STATUS = "Initial STATUS env value"
         BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
+        CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
         VER = 'True'
     }
 
@@ -26,7 +27,6 @@ pipeline {
                 echo " "
                 script{
                     if ("${BRANCH_NAME}" == "main") {
-                        echo "laska"
                         if ("$Version" != ""){
                             try {
                                 sh "git checkout release/$Version"
@@ -46,12 +46,14 @@ pipeline {
                         }
                         else{
                             script{
+                                echo "${CURRENT_BRANCH}"
+                                echo "lama"
                                 VER = 'FALSE'
                             }
                         }
                     }
                     else{
-                        def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                        
                         echo "${CURRENT_BRANCH}"
                         echo "lama"
                     }
