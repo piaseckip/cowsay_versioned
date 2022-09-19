@@ -53,7 +53,7 @@ pipeline {
                 updateGitlabCommitStatus name: 'Build', state: 'pending'
                 script {
                     STATUS = "Build"
-                    BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
+                    BRANCH_NAME = "${git branch --show-current}"
                 }
                 echo "lalala"
                 echo "${BRANCH_NAME}"
