@@ -26,6 +26,7 @@ pipeline {
                 echo " "
                 script{
                     if ("${BRANCH_NAME}" == "main") {
+                        echo "laska"
                         if ("$Version" != ""){
                             try {
                                 sh "git checkout release/$Version"
