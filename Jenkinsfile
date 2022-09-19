@@ -7,7 +7,7 @@ pipeline {
     environment {
         STATUS = "Initial STATUS env value"
         BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
-        BOL = "True"
+        BOL = 'True'
     }
 
   
@@ -45,7 +45,7 @@ pipeline {
                         }
                         else{
                             script{
-                                BOL = "FALSE"
+                                BOL = 'FALSE'
                             }
                             sh 'echo "lalala"'
                             sh 'echo "${BOL}"'
