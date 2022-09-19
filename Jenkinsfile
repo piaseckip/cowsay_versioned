@@ -135,7 +135,7 @@ pipeline {
                     sh "git log --all --graph --oneline --decorate | head -1"
                     
                     BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d ")" -f2 | cut -d " " -f2').trim()
-                    echo ${BRANCH}"
+                    echo "${BRANCH}"
                     Version = "${BRANCH}"
                     echo "$Version"
 
