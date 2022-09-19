@@ -26,7 +26,7 @@ pipeline {
                 echo " "
                 script{
                     if ("${BRANCH_NAME}" == "main") {
-                        if ($Version != ""){
+                        if ("$Version" != ""){
                             try {
                                 sh "git checkout release/$Version"
                                 sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
