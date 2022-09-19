@@ -48,7 +48,7 @@ pipeline {
                         }
                         else{
                             script{
-                                echo "${CURRENT_BRANCH}"
+                                // echo "${CURRENT_BRANCH}"
                                 echo "lama"
                                 VER = 'FALSE'
                             }
