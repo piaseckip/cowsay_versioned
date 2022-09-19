@@ -48,7 +48,7 @@ pipeline {
                                 def LOG = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1').trim()
                                 echo "tutaj"
                                 echo "${LOG}"
-                                if ( "${LOG}".contains('origin/main')) {
+                                if ( "${LOG}".contains('main')) {
                                     echo "lama"
                                     VER = 'FALSE'
                                 }
