@@ -48,7 +48,7 @@ pipeline {
                         }
                         else{
                             script{
-                                // echo "${CURRENT_BRANCH}"
+                                echo ${CURRENT_BRANCH}
                                 echo "lama"
                                 VER = 'FALSE'
                             }
@@ -56,8 +56,7 @@ pipeline {
                     }
                     else{
                         
-                        echo "${CURRENT_BRANCH}"
-                        echo "lama"
+                       echo "to do"
                     }
                     echo "Checkout complete!"
                     updateGitlabCommitStatus name: 'Checkout', state: 'success'
