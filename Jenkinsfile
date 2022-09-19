@@ -28,7 +28,7 @@ pipeline {
                 }
                 echo " "
                 script{
-                    if ("${BRANCH_NAME}" == "main") {
+                    if ("${CURRENT_BRANCH}".contains('main')) {
                         if ("$Version" != ""){
                             try {
                                 sh "git checkout release/$Version"
@@ -48,15 +48,14 @@ pipeline {
                         }
                         else{
                             script{
-                                echo "${CURRENT_BRANCH}"
                                 echo "lama"
                                 VER = 'FALSE'
                             }
                         }
                     }
                     else{
-                        
-                       echo "to do"
+                        sh "echo $(cat verison.txt)"
+                        echo "to do"
                     }
                     echo "Checkout complete!"
                     updateGitlabCommitStatus name: 'Checkout', state: 'success'
