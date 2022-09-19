@@ -54,7 +54,7 @@ pipeline {
                         }
                     }
                     else{
-                        sh "echo $(cat verison.txt)"
+                        sh 'echo $(cat verison.txt)'
                         echo "to do"
                     }
                     echo "Checkout complete!"
