@@ -28,6 +28,7 @@ pipeline {
                 script{
                         if ("$Version" != ""){
                             try {
+                                echo "lolek"
                                 sh "git checkout release/$Version"
                                 sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
                             }
@@ -60,6 +61,7 @@ pipeline {
                                     def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                                     echo "${CURRENT_BRANCH}"
 
+
                                 }
                             }   
                         }
@@ -83,8 +85,7 @@ pipeline {
                 echo 'Building..'
                 sleep 5 
                 sh "docker build --build-arg PORT=8081 -t cow ."
-                echo " "
-                echo "Build complete!"
+                echo " "sertion(+),
                 updateGitlabCommitStatus name: 'Build', state: 'success'
             }
         }
