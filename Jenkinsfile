@@ -85,7 +85,7 @@ pipeline {
                 echo 'Building..'
                 sleep 5 
                 sh "docker build --build-arg PORT=8081 -t cow ."
-                echo " "sertion(+),
+                echo " "
                 updateGitlabCommitStatus name: 'Build', state: 'success'
             }
         }
