@@ -61,7 +61,8 @@ pipeline {
                                     def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                                     echo "${CURRENT_BRANCH}"
                                     sh "cat version.txt"
-                                    echo ''${BRANCH}'.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE > version.txt'
+                                    echo "${BRANCH}"
+                                    echo "'${BRANCH}'.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE > version.txt"
                                     //sh 'echo "'${BRANCH}'.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
                                     sh ""
                                     sh "git add ."
