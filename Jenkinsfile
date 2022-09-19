@@ -6,7 +6,7 @@ pipeline {
 
     environment {
         STATUS = "Initial STATUS env value"
-        BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
+        BRANCH_NAME = "${GIT_BRANCH}"
     }
 
   
