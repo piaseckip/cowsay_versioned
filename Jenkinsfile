@@ -44,7 +44,7 @@ pipeline {
                             }
                         }
                         else{
-                            BOL = "True"
+                            "${BOL}" = "True"
                         }
                     }
                     echo "Checkout complete!"
