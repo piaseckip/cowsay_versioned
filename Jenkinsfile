@@ -48,7 +48,7 @@ pipeline {
                         }
                         else{
                             script{
-                                sh "git log --all --graph --oneline --decorate"  
+                                sh "git log --all --graph --oneline --decorate | head -1 "  
                                 echo "lama"
                                 VER = 'FALSE'
                             }
