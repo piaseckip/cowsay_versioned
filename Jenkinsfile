@@ -53,7 +53,7 @@ pipeline {
                                     VER = 'FALSE'
                                 }
                                 else {
-                                    else "nie tu"
+                                    echo "nie tu"
                                     // def BRANCH = sh(returnStdout: true, script: 'git log --all --graph --oneline --decorate | head -1 | cut -d "/" -f3 | cut -d ")" -f1').trim()
                                     // echo "${BRANCH}"
                                     // sh 'git checkout "${BRANCH}"'
