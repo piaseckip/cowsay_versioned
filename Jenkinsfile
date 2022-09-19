@@ -73,7 +73,7 @@ pipeline {
 
         stage('Test') {
             when{
-                expression { BOL == "True"}
+                expression { "${BOL}" == "True"}
             }
             steps {
                 updateGitlabCommitStatus name: 'Test', state: 'pending'
@@ -90,7 +90,7 @@ pipeline {
         }    
         stage('Git deploy') {
             when{
-                expression { BOL == "True"}
+                expression { "${BOL}" == "True"}
             }
             steps {
                 updateGitlabCommitStatus name: 'Git deploy', state: 'pending'
@@ -111,7 +111,7 @@ pipeline {
         }
         stage('Ecr deploy') {
             when{
-                expression { BOL == "True"}
+                expression { "${BOL}" == "True"}
             }
             steps {
                 updateGitlabCommitStatus name: 'Ecr deploy', state: 'pending'
@@ -132,7 +132,7 @@ pipeline {
         
         stage ("Deploy to prod") {
             when{
-                expression { BOL == "True"}
+                expression { "${BOL}" == "True"}
             }
             steps {
                 updateGitlabCommitStatus name: 'Deploy to prod', state: 'pending'
