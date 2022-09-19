@@ -140,7 +140,7 @@ pipeline {
                     echo "$Version"
 
                 
-                sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE" > version.txt'
+                sh "echo '$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1))) FOR RELEASE' > version.txt"
                 sh "git add ."
                 sh 'git commit -am "$(tail version.txt)"'
                 sh 'git tag $Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1)))'
