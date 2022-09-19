@@ -6,6 +6,7 @@ pipeline {
 
     environment {
         STATUS = "Initial STATUS env value"
+        BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
     }
 
   
@@ -23,6 +24,8 @@ pipeline {
                 checkout scm
                 echo " "
                 script{
+                    if ("${BRANCH_NAME}" == "main") || ($Version != "")
+                    {
                     try {
                         sh "git checkout release/$Version"
                         sh 'echo "$Version.$(($(tail -1 version.txt | cut -d "." -f3 | cut -d " " -f1) + 1)) NOT FOR RELEASE" > version.txt'
@@ -32,11 +35,14 @@ pipeline {
                         sh "git checkout -b release/$Version"
                         sh "echo $Version.0 NOT FOR RELEASE > version.txt"
                     }
+                    
+                    
                     sh "git add ."
                     sh 'git commit -am "$(tail version.txt)"'
 
                     withCredentials([string(credentialsId: 'api_token', variable: 'TOKEN')]) { 
                         sh "git push http://jenkins:$TOKEN@35.178.81.143/piaseckip/cowsay_versioned"
+                    }
                     }
                     echo "Checkout complete!"
                     updateGitlabCommitStatus name: 'Checkout', state: 'success'
