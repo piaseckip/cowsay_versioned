@@ -23,11 +23,9 @@ pipeline {
                 echo " "
                 deleteDir()
                 checkout scm
-                script {
-                def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                }
                 echo " "
                 script{
+                    def CURRENT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                     if ("${CURRENT_BRANCH}".contains('main')) {
                         if ("$Version" != ""){
                             try {
